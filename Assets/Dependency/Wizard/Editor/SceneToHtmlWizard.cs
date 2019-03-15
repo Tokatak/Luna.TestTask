@@ -25,8 +25,8 @@ public class SceneToHtmlWizard : ScriptableWizard
         var rawSceneContent = new SceneReader().Read(scene);
         var components = new SceneContentParser().Parse(rawSceneContent);
 
-        IYamlUnityIdMapper typeMapper = new YamlUnityIdMapper(Constants.COMPONENT_WRAPPER_ASSEMBLY, Constants.COMPONENTS_NAMESPACE);
-        IComponentParser componentParser = new ComponentParser(typeMapper);
+        IYamlUnityIdMapper typeMapper = new YamlUnityIdMapper(Constants.COMPONENTS_WRAPPER_ASSEMBLY, Constants.COMPONENTS_NAMESPACE);
+        IComponentParser componentParser = new YamlDotNetComponentParser(typeMapper);
         var parsedComponents = componentParser.Parse(components);
 
         foreach (object parsedComponent in parsedComponents)

@@ -11,11 +11,11 @@ public interface IComponentParser
     List<object> Parse(List<SceneContentParser.YamlComponent> components);
 }
 
-public class ComponentParser : IComponentParser
+public class YamlDotNetComponentParser : IComponentParser
 {
     IYamlUnityIdMapper typeDictionary { get; }
 
-    public ComponentParser(IYamlUnityIdMapper typeDictionary)
+    public YamlDotNetComponentParser(IYamlUnityIdMapper typeDictionary)
     {
         this.typeDictionary = typeDictionary;
     }
