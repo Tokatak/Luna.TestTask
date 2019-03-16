@@ -8,7 +8,7 @@ using YamlDotNet.Serialization;
 
 public interface IComponentParser
 {
-    List<object> Parse(List<SceneContentParser.YamlComponent> components);
+    List<SceneContentParser.YamlComponent> Parse(List<SceneContentParser.RawYamlComponent> components);
 }
 
 public class YamlDotNetComponentParser : IComponentParser
@@ -20,21 +20,21 @@ public class YamlDotNetComponentParser : IComponentParser
         this.typeDictionary = typeDictionary;
     }
 
-    public List<object> Parse(List<SceneContentParser.YamlComponent> components)
+    public List<SceneContentParser.YamlComponent> Parse(List<SceneContentParser.RawYamlComponent> components)
     {
-        List<object> result = new List<object>();
+        List<SceneContentParser.YamlComponent> result = new List<SceneContentParser.YamlComponent>();
 
-        foreach (var serializedComponent in components)
+        foreach (var rawComponent in components)
         {
-            if (!typeDictionary.ContainsKey(serializedComponent.ClassID))
+            if (!typeDictionary.ContainsKey(rawComponent.ClassId))
             {
-                Debug.LogWarning($"Missing class wrapper for ClassID {serializedComponent.ClassID}");
+                Debug.LogWarning($"Missing class wrapper for ClassID {rawComponent.ClassId}");
                 continue;
             }
 
-            var kvp = typeDictionary[serializedComponent.ClassID];
+            var kvp = typeDictionary[rawComponent.ClassId];
 
-            var input = new StringReader(serializedComponent.Body);
+            var input = new StringReader(rawComponent.Body);
 
             var deserializer = new DeserializerBuilder()
                 .IgnoreUnmatchedProperties()
@@ -54,7 +54,7 @@ public class YamlDotNetComponentParser : IComponentParser
             MethodInfo genericMethod = method.MakeGenericMethod(kvp);
             var obj = genericMethod.Invoke(deserializer, new[] {input});
 
-            result.Add(obj);
+            result.Add(new SceneContentParser.YamlComponent(rawComponent,obj));
         }
 
         return result;
