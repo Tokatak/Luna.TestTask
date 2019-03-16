@@ -15,6 +15,7 @@ public interface IDeployer
 
 public class Deployer : IDeployer
 {
+    private static readonly string[] DeployFormats = {"*.html","*.js"};
     private string DestFolder;
 
     public Deployer(string destFolder)
@@ -51,9 +52,12 @@ public class Deployer : IDeployer
             SearchOption.AllDirectories))
             Directory.CreateDirectory(dirPath.Replace(SourcePath, DestinationPath));
 
-        //gather code files
-        List<string> files = Directory.GetFiles(SourcePath, "*.html", SearchOption.AllDirectories).ToList();
-        files.AddRange(Directory.GetFiles(SourcePath, "*.js", SearchOption.AllDirectories));
+        //gather deploy files
+        List<string> files = new List<string>();
+        foreach (string deployFormat in DeployFormats)
+        {
+            files.AddRange(Directory.GetFiles(SourcePath, deployFormat , SearchOption.AllDirectories));
+        }
         
         //copy with replace files
         foreach (string newPath in files)
