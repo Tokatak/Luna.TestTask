@@ -1,15 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using UnityEngine;
 
 public interface IDeployer
 {
     /// <summary>
-    /// Deploys template by path, returns full path to index.html
+    /// Deploys template by path
     /// </summary>
     /// <param name="source">Source path to template</param>
-    /// <returns> path to index.html </returns>
+    /// <returns> path deploy root </returns>
     string Deploy(string SourcePath);
 }
 
@@ -64,6 +63,6 @@ public class Deployer : IDeployer
             File.Copy(newPath, newPath.Replace(SourcePath, DestinationPath), true);
 
         //return path to index
-        return Path.Combine(DestinationPath ,@"index.html");
+        return DestinationPath;
     }
 }
