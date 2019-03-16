@@ -36,6 +36,8 @@ ExportedObj/
 /*.obb
 /Assets/StreamingAssets/build_info.txt
 
+/AssetIgnored/
+
 # Cinamchine has this
 !*LegacyTimelineAPI.unitypackage
 .vs
