@@ -3,7 +3,8 @@
     "references": [
         "MiniLuna.UnityYaml",
         "YamlDotNet.YamlDotNet",
-        "MiniLuna.SceneToHtml"
+        "MiniLuna.SceneToHtml",
+        "MiniLuna.WebRender"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [

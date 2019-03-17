@@ -1,6 +1,9 @@
 {
     "name": "MiniLuna.WebRender",
-    "references": [],
+    "references": [
+        "MiniLuna.UnityYaml",
+        "Newtonsoft.Json"
+    ],
     "optionalUnityReferences": [],
     "includePlatforms": [
         "Editor"
