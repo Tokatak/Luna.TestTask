@@ -27,22 +27,27 @@
 <!-- Javascript code that runs our Three.js examples -->
 <script type="text/javascript">
     // once everything is loaded, we run our Three.js stuff.
+    var activeCamera;
+    var renderer;
+    
     function init() {
        
         // create a scene, that will hold all our elements such as objects, cameras and lights.
         var scene = new THREE.Scene();
         
         // create a camera, which defines where we're looking at.
-        var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+        var defaultCamera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
         // position and point the camera to the center of the scene
-        camera.position.x = -30;
-        camera.position.y = 40;
-        camera.position.z = 30;
-        camera.lookAt(scene.position);
+        defaultCamera.position.x = -30;
+        defaultCamera.position.y = 40;
+        defaultCamera.position.z = 30;
+        defaultCamera.lookAt(scene.position);
+        var loadedCamera;
+        activeCamera = defaultCamera;
         
         
         // create a render and set the size
-        var renderer = new THREE.WebGLRenderer( { antialias: true } );
+        renderer = new THREE.WebGLRenderer( { antialias: true } );
         renderer.setClearColor(new THREE.Color(0xEEEEEE, 1.0));
         renderer.setSize(window.innerWidth, window.innerHeight);
         
@@ -108,6 +113,7 @@
             };
             this.clearScene = function () {
                 scene = new THREE.Scene();
+                activeCamera= defaultCamera;
             };
             this.importScene = function () {
                 loadJSON('data/storedScene.json', loaded );
@@ -115,6 +121,9 @@
                     var sceneLoader = new THREE.SceneLoader();
                     sceneLoader.parse(json, function (e) {
                         scene = e.scene;
+                        loadedCamera = scene.getObjectByName( "MainCamera", true );
+                        activeCamera= loadedCamera;
+                        onWindowResize();
                     }, '.');
                 }
             }
@@ -128,7 +137,7 @@
         
         function render() {
             requestAnimationFrame(render);
-            renderer.render(scene, camera);
+            renderer.render(scene, activeCamera);
         }
 
         function loadJSON(filePath, callback)
@@ -144,20 +153,18 @@
             xmlhttp.open("GET", filePath, true);
             xmlhttp.send();
         }
-        
     }
     
     window.onload = init;
-    //TODO recover
-    // window.addEventListener( 'resize', onWindowResize, false );
-    //
-    // function onWindowResize() {
-    //     windowHalfX = window.innerWidth / 2;
-    //     windowHalfY = window.innerHeight / 2;
-    //     camera.aspect = window.innerWidth / window.innerHeight;
-    //     camera.updateProjectionMatrix();
-    //     renderer.setSize( window.innerWidth, window.innerHeight );
-    // }
+    window.addEventListener( 'resize', onWindowResize, false );
+    
+    function onWindowResize() {
+        windowHalfX = window.innerWidth / 2;
+        windowHalfY = window.innerHeight / 2;
+        activeCamera.aspect = window.innerWidth / window.innerHeight;
+        activeCamera.updateProjectionMatrix();
+        renderer.setSize( window.innerWidth, window.innerHeight );
+    }
 
     
 </script>
