@@ -13,8 +13,8 @@
     <style>
         body {
             /* set margin to 0 and overflow to hidden, to go fullscreen */
-            margin: 0;
-            overflow: hidden;
+            width: 100%;
+            text-align:center;
         }
     </style>
 </head>
@@ -48,7 +48,7 @@
         
         // create a render and set the size
         renderer = new THREE.WebGLRenderer( { antialias: true } );
-        renderer.setClearColor(new THREE.Color(0xEEEEEE, 1.0));
+        renderer.setClearColor(new THREE.Color(0xffffff, 1.0));
         renderer.setSize(window.innerWidth, window.innerHeight);
         
         // LoadGeometry();
@@ -123,6 +123,7 @@
                         scene = e.scene;
                         loadedCamera = scene.getObjectByName( "MainCamera", true );
                         activeCamera= loadedCamera;
+                        renderer.setClearColor(new THREE.Color(0xBBBBBB, 1.0));
                         onWindowResize();
                     }, '.');
                 }
@@ -132,6 +133,8 @@
         gui.add(controls, "exportScene");
         gui.add(controls, "clearScene");
         gui.add(controls, "importScene");
+        
+        controls.importScene();
         
         render();
         
@@ -159,14 +162,18 @@
     window.addEventListener( 'resize', onWindowResize, false );
     
     function onWindowResize() {
-        windowHalfX = window.innerWidth / 2;
-        windowHalfY = window.innerHeight / 2;
-        activeCamera.aspect = window.innerWidth / window.innerHeight;
-        activeCamera.updateProjectionMatrix();
-        renderer.setSize( window.innerWidth, window.innerHeight );
+        var cameraAspect = activeCamera.aspect;
+        var winx = window.innerWidth/cameraAspect;
+        var winy = window.innerHeight;
+        if(winx>winy)
+        {
+            renderer.setSize(winy*cameraAspect ,window.innerHeight );
+        }
+        else
+        {
+            renderer.setSize( window.innerWidth, winx*cameraAspect );
+        }
     }
-
-    
 </script>
 </body>
 </html>
