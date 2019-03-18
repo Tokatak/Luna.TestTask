@@ -53,6 +53,7 @@ public class TreeJsAdapter
             //Note other z destination
             context.Container.Position = new[]{transform.m_LocalPosition.x, transform.m_LocalPosition.y, -transform.m_LocalPosition.z};
             context.Container.Rotation = new[] {transform.m_LocalEulerAnglesHint.x, transform.m_LocalEulerAnglesHint.y, transform.m_LocalEulerAnglesHint.z}; 
+            context.Container.Scale = new[] {transform.m_LocalScale.x, transform.m_LocalScale.y, transform.m_LocalScale.z}; 
         }
 
         if (component is MeshFilter)
