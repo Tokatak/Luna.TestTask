@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityYaml.Components;
 
 
 public interface ISceneContentParser
@@ -61,7 +62,7 @@ public class SceneContentParser : ISceneContentParser
         public object Instance { get; }
 
         private IYamlComponent _yamlComponentImplementation;
-
+      
         public YamlComponent(IYamlComponent yamlComponentImplementation, object instance)
         {
             _yamlComponentImplementation = yamlComponentImplementation;
