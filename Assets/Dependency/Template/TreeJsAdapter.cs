@@ -32,27 +32,11 @@ public class TreeJsAdapter
 
             var yamlGamObject = yamlComponent.Instance as YamlGameObject;
             var componentIds = yamlGamObject.m_Component.Select(item=>item.component.fileID);
-//            var components = componentIds.Select(x => sceneData.Components.Where(item=>item.InstanceId == x));
             var components = sceneData.Components.Where(component => componentIds.Contains(component.InstanceId));
             foreach (var component in components)
             {
                 Apply(component, context);
             }
-            
-            
-
-//            YamlGameObject instance = go.Instance as YamlGameObject;
-//
-//            var componentIds = instance.m_Component.Select(item=>item.component.fileID);
-//            var components = componentIds.Select(x => sceneData.ComponentsDictionary[x]).ToList();
-//            var transform = components.First(item => item is Transform) as Transform;
-//            
-//            var obj = new Object {Geometry = "Cube", Material = "Material"};
-//            var rot = new Quaternion(transform.m_LocalRotation.x,transform.m_LocalRotation.y,transform.m_LocalRotation.z,transform.m_LocalRotation.w);
-//            obj.Position = new []{transform.m_LocalPosition.x,transform.m_LocalPosition.y,transform.m_LocalPosition.z};
-//            obj.Rotation = new[] {rot.eulerAngles.x, rot.eulerAngles.y, rot.eulerAngles.z}; 
-//            
-//            scene.Objects.Add(instance.m_Name + go.InstanceId,obj);
         }  
         
         var str = JsonConvert.SerializeObject(scene);
@@ -66,6 +50,7 @@ public class TreeJsAdapter
         {
             var transform = component as Transform;
             var rot = new Quaternion(transform.m_LocalRotation.x,transform.m_LocalRotation.y,transform.m_LocalRotation.z,transform.m_LocalRotation.w);
+            //Note other z destination
             context.Container.Position = new[]{transform.m_LocalPosition.x, transform.m_LocalPosition.y, -transform.m_LocalPosition.z};
             context.Container.Rotation = new[] {rot.eulerAngles.x, rot.eulerAngles.y, rot.eulerAngles.z}; 
         }
@@ -82,13 +67,6 @@ public class TreeJsAdapter
             context.Container.Children.Add("MainCamera", new PerspectiveCamera());;
         }
     }
-
-    private void Interpret()
-    {
-        
-    }
-
-  
 
     class YamlComponentContext
     {
