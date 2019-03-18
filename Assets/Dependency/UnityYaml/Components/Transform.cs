@@ -9,6 +9,7 @@ namespace UnityYaml.Components
         public FileID m_GameObject { get; set; }
         public Vector4 m_LocalRotation { get; set; }
         public Vector3 m_LocalPosition { get; set; }
+        public Vector3 m_LocalEulerAnglesHint { get; set; }
         public Vector3 m_LocalScale { get; set; }
         
         public List<FileID> m_Children { get; set; }

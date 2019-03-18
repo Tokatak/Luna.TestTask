@@ -49,10 +49,10 @@ public class TreeJsAdapter
         if(component is Transform)
         {
             var transform = component as Transform;
-            var rot = new Quaternion(transform.m_LocalRotation.x,transform.m_LocalRotation.y,transform.m_LocalRotation.z,transform.m_LocalRotation.w);
+         
             //Note other z destination
             context.Container.Position = new[]{transform.m_LocalPosition.x, transform.m_LocalPosition.y, -transform.m_LocalPosition.z};
-            context.Container.Rotation = new[] {rot.eulerAngles.x, rot.eulerAngles.y, rot.eulerAngles.z}; 
+            context.Container.Rotation = new[] {transform.m_LocalEulerAnglesHint.x, transform.m_LocalEulerAnglesHint.y, transform.m_LocalEulerAnglesHint.z}; 
         }
 
         if (component is MeshFilter)
