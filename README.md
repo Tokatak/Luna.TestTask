@@ -1,10 +1,13 @@
 # Luna.TestTask
 
 Prototype for porting Unity Yaml scene files to WebGL.
+Provides wrappers and a set of basic interpreters to transfer unity scene objects to data for ThreeJs.
+Flow:
+Yaml scene split in components => serialized => wrapped in data container => transfered to Adapter that uses Interpreters to buld a ThreeJs scene file => Data loaded to ThreJs using it's API.
 
 ### Prerequisites
 
-Any Unity over 2018.3.6f1 shoud do.
+Unity  2018.3.6f1 + shoud do.
 
 ## Running 
 
