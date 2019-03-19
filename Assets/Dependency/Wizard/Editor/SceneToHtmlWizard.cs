@@ -32,6 +32,12 @@ public class SceneToHtmlWizard : ScriptableWizard
     void OnWizardCreate()
     {
         var scene = SceneManager.GetActiveScene();
+        if (scene.path == string.Empty)
+        {
+            Debug.LogError("Missing opened scene");
+            return;
+        }
+        
         var sceneContent = new SceneReader().Read(scene);
         var rawYamlComponents = new SceneContentParser().Parse(sceneContent);
         

@@ -4,7 +4,8 @@
         "MiniLuna.UnityYaml",
         "YamlDotNet.YamlDotNet",
         "MiniLuna.SceneToHtml",
-        "MiniLuna.WebRender"
+        "MiniLuna.WebRender",
+        "Newtonsoft.Json"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [
