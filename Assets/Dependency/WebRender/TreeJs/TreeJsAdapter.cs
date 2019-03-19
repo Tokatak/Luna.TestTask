@@ -100,6 +100,9 @@ namespace TreeJs
             //Basic Material
             scene.Materials.Add("Material", new MeshLambertMaterial());
             scene.Metadata.Materials = 1;
+            
+            //DirectionalLight
+            scene.Objects.Add("DirectionalLight",new DirectionalLight());
         }
     }
 }

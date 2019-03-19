@@ -100,7 +100,7 @@ namespace Dependency.Template
         [JsonProperty("visible")] public bool Visible { get; set; } = true;
 
         [JsonProperty("children", NullValueHandling = NullValueHandling.Ignore)]
-        public Dictionary<string, object>  Children { get; set; } = new Dictionary<string, object> ();
+        public Dictionary<string, object> Children { get; set; } = new Dictionary<string, object>();
     }
 
     public class GeometryTreeJsObject : TreeJSObject
@@ -124,5 +124,16 @@ namespace Dependency.Template
         [JsonProperty("position")] public float[] Position { get; set; } = {0f, 0f, 0f};
 
         [JsonProperty("rotation")] public float[] Rotation { get; set; } = {0f, 0f, 0f};
+    }
+
+    public class DirectionalLight
+    {
+        [JsonProperty("type")] public string Type { get; set; } = "DirectionalLight";
+
+        [JsonProperty("color")] public long Color { get; set; } = 16777215;
+
+        [JsonProperty("intensity")] public float Intensity { get; set; } = 1;
+
+        [JsonProperty("direction")] public float[] Direction { get; set; } = new float[] {10, 10, 10};
     }
 }
