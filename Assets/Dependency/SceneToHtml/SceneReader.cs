@@ -23,7 +23,6 @@ public class SceneReader : ISceneReader
       using (var stream = new StreamReader(fullPath))
       {
           rawSceneContent = stream.ReadToEnd();
-          Debug.Log(rawSceneContent);
       }
 
       return rawSceneContent;
