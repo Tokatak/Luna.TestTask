@@ -3,7 +3,7 @@ using UnityYaml.Attributes;
 namespace UnityYaml.Components
 {
     [UnityYamlBinding(classId:20)]
-    public class Camera
+    public class Camera: UnityYamlComponent
     {
         
     }

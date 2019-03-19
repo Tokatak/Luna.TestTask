@@ -4,7 +4,7 @@ using UnityYaml.Attributes;
 namespace UnityYaml.Components
 {
     [UnityYamlBinding(classId:4)]
-    public class Transform
+    public class Transform: UnityYamlComponent
     {
         public FileID m_GameObject { get; set; }
         public Vector4 m_LocalRotation { get; set; }

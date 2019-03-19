@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using Dependency.SceneToHtml;
+using Dependency.Template;
+using TreeJs;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -42,7 +44,9 @@ public class SceneToHtmlWizard : ScriptableWizard
         
         var sceneData = new SceneData(components);
         var pathToContent = Path.Combine(deployPath, TemplateContentPath);
-        new TreeJsAdapter().DeployContent(sceneData, pathToContent);
+        
+        var treeJsAdapterMapper = new YamlToTreeJSComponentMapper(Constants.TREEJS_ASSEMBLY,Constants.TREEJS_ADAPTERS_NAMESPAGE);
+        new TreeJsAdapter(treeJsAdapterMapper).DeployContent(sceneData, pathToContent);
         
         
         //point explorer to index file

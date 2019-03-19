@@ -5,7 +5,7 @@ using UnityYaml.Attributes;
 namespace UnityYaml.Components
 {
     [UnityYamlBinding(classId: 1)]
-    public class YamlGameObject
+    public class YamlGameObject: UnityYamlComponent
     {
         public List<MComponent> m_Component { get; set; }
         public string m_Name { get; set; }
