@@ -21,7 +21,7 @@ namespace TreeJs
             Go = yamlComponent.Instance as YamlGameObject;
 
             var componentIds = Go.m_Component.Select(item => item.component.fileID);
-            var components = componentIds.Select(x => ComponentsDictionary[x]).ToList();
+            var components = componentIds.Where(ComponentsDictionary.ContainsKey).Select(x => ComponentsDictionary[x]).ToList();
             Transform = components.First(item => item is Transform) as Transform;
         }
     }
