@@ -20,7 +20,8 @@ public class SceneToHtmlWizard : ScriptableWizard
     public string BuildDestinationFolder= "Builds";
     
     public string TemplatePath = @"\Dependency\Template\treejs";
-    public string TemplateContentPath = @"data\storedScene.json";
+    public string TemplateContentPath = @"data";
+    public string TemplateContentFileName = @"storedScene.json";
     
     [MenuItem("Tools/SceneToHtmlWizard %t")]
     static void CreateWizard()
@@ -45,13 +46,16 @@ public class SceneToHtmlWizard : ScriptableWizard
         string deployPath =  deployer.Deploy(Path.Combine(Application.dataPath +TemplatePath));
         var pathToIndex =  Path.Combine(deployPath ,@"index.html");
         var pathToContent = Path.Combine(deployPath, TemplateContentPath);
-        
+        Directory.CreateDirectory(pathToContent);
+
+
+        var dataName = Path.Combine(pathToContent, TemplateContentFileName);
         //TreeJS
         var treeJsAdapterMapper = new YamlToTreeJSComponentMapper(Constants.TREEJS_ASSEMBLY,Constants.TREEJS_ADAPTERS_NAMESPAGE);
-        new TreeJsAdapter(treeJsAdapterMapper).DeployContent(sceneData, pathToContent);
+        new TreeJsAdapter(treeJsAdapterMapper).DeployContent(sceneData, dataName);
         
         //point explorer to index file
-//        EditorUtility.RevealInFinder(pathToIndex);
+        EditorUtility.RevealInFinder(pathToIndex);
 
     }
 }
