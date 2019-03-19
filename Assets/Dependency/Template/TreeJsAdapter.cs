@@ -14,55 +14,70 @@ public class TreeJsAdapter
 {
     public void DeployContent(SceneData sceneData, string pathToContent)
     {
-        Dictionary<int, YamlComponentContext> GOJstreeContainerDictionary = new Dictionary<int, YamlComponentContext>();
-        var ComponentGODictionary = new Dictionary<int, SceneContentParser.YamlComponent>();
+        var instanceIdContextDictionary = new Dictionary<int, YamlComponentContext>();
+        var componentContextDictionary = new Dictionary<int, SceneContentParser.YamlComponent>();
 
         TreeJSScene scene = new TreeJSScene();
 
+        //Basic Geometry
         scene.Geometries.Add("Cube", new GeometryCube());
         scene.Metadata.Geometries = 1;
 
+        //Basic Material
         scene.Materials.Add("Material", new MeshLambertMaterial());
         scene.Metadata.Materials = 1;
 
-        var gameObjects = sceneData.Components.Where(item => item.Instance is YamlGameObject).ToList();
-        foreach (var yamlComponent in gameObjects)
+        //Look up for unity GameObjects
+        var parsedYamlGameObjects = sceneData.Components.Where(item => item.Instance is YamlGameObject).ToList();
+        foreach (var yamlGameObject in parsedYamlGameObjects)
         {
+            //new TreeJsContainer - same as GO in unity
             TreeJSObject container = new TreeJSObject();
-            var context = new YamlComponentContext(yamlComponent, sceneData.ComponentsDictionary, container);
+            
+            //context for components
+            var context = new YamlComponentContext(yamlGameObject, sceneData.ComponentsDictionary, container);
 
-            GOJstreeContainerDictionary.Add(yamlComponent.InstanceId, context);
+            //fill up connection between Unity GO id and context
+            instanceIdContextDictionary.Add(yamlGameObject.InstanceId, context);
 
-            var yamlGamObject = yamlComponent.Instance as YamlGameObject;
+            //Gathering "MonoBehaviors"/Components from Unit GO  (including transform)
+            var yamlGamObject = yamlGameObject.Instance as YamlGameObject;
             var componentIds = yamlGamObject.m_Component.Select(item => item.component.fileID);
             var components = sceneData.Components.Where(component => componentIds.Contains(component.InstanceId));
+            
+            //Applying components over TreeJsContainer
             foreach (var component in components)
             {
                 Apply(component, context);
                 
-                ComponentGODictionary.Add(component.InstanceId,yamlComponent);
+                //fill look up dictionary for backtracing context
+                componentContextDictionary.Add(component.InstanceId,yamlGameObject);
             }
         }
 
-        //hierarchy
-        foreach (var yamlComponent in gameObjects)
+        //gathering heirarchy 
+        foreach (var yamlGameObject in parsedYamlGameObjects)
         {
-            var context = GOJstreeContainerDictionary[yamlComponent.InstanceId];
+            var context = instanceIdContextDictionary[yamlGameObject.InstanceId];
+            //if no parent => add to root
             if (context.Transform.m_Father.fileID == 0)
             {
-                scene.Objects.Add(context.Go.m_Name + (yamlComponent.InstanceId), context.Container);
+                scene.Objects.Add(context.Go.m_Name + (yamlGameObject.InstanceId), context.Container);
             }
 
+            //fill children using look ups
             foreach (Transform.FileID childTransform in context.Transform.m_Children)
             {
-                SceneContentParser.YamlComponent childContainer = ComponentGODictionary[childTransform.fileID]; 
-                var child = GOJstreeContainerDictionary[childContainer.InstanceId];
+                SceneContentParser.YamlComponent childContainer = componentContextDictionary[childTransform.fileID]; 
+                var child = instanceIdContextDictionary[childContainer.InstanceId];
                 context.Container.Children.Add(child.Go.m_Name + child.YamlComponent.InstanceId, child.Container);
             }
         }
 
-        var str = JsonConvert.SerializeObject(scene);
-        File.WriteAllText(pathToContent, str);
+        var serialized = JsonConvert.SerializeObject(scene);
+        
+        //flushing data 
+        File.WriteAllText(pathToContent, serialized);
     }
 
     private void Apply(SceneContentParser.YamlComponent yamlComponent, YamlComponentContext context)
@@ -111,7 +126,6 @@ public class TreeJsAdapter
         {
             Debug.Log(component);
             context.Container.Children.Add("MainCamera", new PerspectiveCamera());
-            ;
         }
     }
 
