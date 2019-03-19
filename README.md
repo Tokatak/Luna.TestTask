@@ -5,6 +5,10 @@ Provides wrappers and a set of basic interpreters to transfer unity scene object
 Flow:
 Yaml scene split in components => serialized => wrapped in data container => transfered to Adapter that uses Interpreters to buld a ThreeJs scene file => Data loaded to ThreJs using it's API.
 
+<img src="https://user-images.githubusercontent.com/13577949/54582272-cf5a8f80-4a18-11e9-82a6-9611d780be24.png" width="300" height="300">
+<img src="https://user-images.githubusercontent.com/13577949/54582274-d08bbc80-4a18-11e9-9294-b826cafc5685.png" width="300" height="300">
+
+
 ### Prerequisites
 
 Unity  2018.3.6f1 + shoud do.
