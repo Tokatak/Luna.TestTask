@@ -72,16 +72,18 @@
     
     function onWindowResize() {
         var cameraAspect = activeCamera.aspect;
-        var winx = window.innerWidth/cameraAspect;
-        var winy = window.innerHeight;
-        if(winx>winy)
-        {
-            renderer.setSize(winy*cameraAspect ,window.innerHeight );
-        }
-        else
-        {
-            renderer.setSize( window.innerWidth, winx*cameraAspect );
-        }
+        //dinamic aspects
+        // var winx = window.innerWidth/cameraAspect;
+        // var winy = window.innerHeight;
+        // if(winx>winy)
+        // {
+        //     renderer.setSize(winy*cameraAspect ,window.innerHeight );
+        // }
+        // else
+        // {
+        //     renderer.setSize( window.innerWidth, winx*cameraAspect );
+        // }
+        renderer.setSize(800 ,600);
     }
 
     function loadJSON(filePath, callback)

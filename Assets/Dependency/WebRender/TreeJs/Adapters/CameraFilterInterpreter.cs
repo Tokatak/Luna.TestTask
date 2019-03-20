@@ -8,7 +8,7 @@ namespace TreeJs.Adapters
     {
         public void Interpret(SceneContentParser.YamlComponent yamlComponent, YamlTreeJsComponentContext context)
         {
-            context.Container.Children.Add("MainCamera", new PerspectiveCamera());
+            context.Container.Children.Add("MainCamera", new PerspectiveCamera(){Aspect = 1.333f});
         }
     }
 }
