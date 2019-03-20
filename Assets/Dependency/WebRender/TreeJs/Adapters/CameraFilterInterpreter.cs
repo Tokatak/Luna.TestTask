@@ -1,5 +1,6 @@
 using Dependency.Template;
-using UnityYaml.Components;
+using UnityEngine;
+using Camera = UnityYaml.Components.Camera;
 
 namespace TreeJs.Adapters
 {

@@ -95,8 +95,17 @@ namespace Dependency.Template
     public class TreeJSObject
     {
         [JsonProperty("position")] public float[] Position { get; set; } = {0, 0, 0};
-        [JsonProperty("rotation")] public float[] Rotation { get; set; } = {0, 0, 0};
         [JsonProperty("scale")] public float[] Scale { get; set; } = {1, 1, 1};
+
+        [JsonProperty("quaternion")]
+        public float[] Quaternion { get; set; } =
+        {
+            UnityEngine.Quaternion.identity.x,
+            UnityEngine.Quaternion.identity.x,
+            UnityEngine.Quaternion.identity.z,
+            UnityEngine.Quaternion.identity.w
+        };
+
         [JsonProperty("visible")] public bool Visible { get; set; } = true;
 
         [JsonProperty("children", NullValueHandling = NullValueHandling.Ignore)]
